@@ -37,7 +37,9 @@ namespace CursosFuncionarios.Models
         [DisplayName("Situação")]
         public AndamentoCurso Andamento { get; set; } = AndamentoCurso.Inscrito;
 
-        public Funcionario Funcionario { get; set; }
-        public CursoAplicacao CursoAplicacao { get; set; }
+        [ForeignKey("IdFuncionario")]
+        public virtual Funcionario Funcionario { get; set; }
+        [ForeignKey("IdCursoAplicacao")]
+        public virtual CursoAplicacao CursoAplicacao { get; set; }
     }
 }
