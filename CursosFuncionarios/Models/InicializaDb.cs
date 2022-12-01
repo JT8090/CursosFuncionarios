@@ -52,6 +52,7 @@ public static class InicializaDb
                     }
                 );
             }
+
             context.SaveChanges();
 
             int idCurso = context.Curso.OrderBy(d => d.Id).First().Id;
@@ -61,29 +62,28 @@ public static class InicializaDb
             // Curso Aplicacao.
             if (!context.CursoAplicacao.Any())
             {
-                return;   // Já inicializado
-            }
-            context.CursoAplicacao.AddRange(
-                new CursoAplicacao
-                {
-                    IdCurso = idCurso,
-                    DtInicio = DateTime.Today.AddDays(-20),
-                    DtFim = DateTime.Today.AddDays(10),
-                },
-                new CursoAplicacao
-                {
-                    IdCurso = idCurso,
-                    DtInicio = DateTime.Today.AddDays(10),
-                    DtFim = DateTime.Today.AddDays(40),
-                }
-            );
+                context.CursoAplicacao.AddRange(
+                    new CursoAplicacao
+                    {
+                        IdCurso = idCurso,
+                        DtInicio = DateTime.Today.AddDays(-20),
+                        DtFim = DateTime.Today.AddDays(10),
+                    },
+                    new CursoAplicacao
+                    {
+                        IdCurso = idCurso,
+                        DtInicio = DateTime.Today.AddDays(10),
+                        DtFim = DateTime.Today.AddDays(40),
+                    }
+                );
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
 
             int idCursoAplicacao = context.CursoAplicacao.Where(c => c.IdCurso == idCurso).OrderBy(d => d.Id).First().Id;
 
             // Funcionario Curso.
-            if (context.FuncionarioCurso.Any())
+            if (!context.FuncionarioCurso.Any())
             {
                 context.FuncionarioCurso.AddRange(
                     new FuncionarioCurso
