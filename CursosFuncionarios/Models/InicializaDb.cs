@@ -55,9 +55,9 @@ public static class InicializaDb
 
             context.SaveChanges();
 
-            int idCurso = context.Curso.OrderBy(d => d.Id).First().Id;
-            int idFuncionario = context.Funcionario.OrderBy(d => d.Id).First().Id;
-            int idFuncionario2 = context.Funcionario.OrderByDescending(d => d.Id).First().Id;
+            Curso curso = context.Curso.OrderBy(d => d.Id).First();
+            Funcionario funcionario = context.Funcionario.OrderBy(d => d.Id).First();
+            Funcionario funcionario2 = context.Funcionario.OrderByDescending(d => d.Id).First();
 
             // Curso Aplicacao.
             if (!context.CursoAplicacao.Any())
@@ -65,22 +65,24 @@ public static class InicializaDb
                 context.CursoAplicacao.AddRange(
                     new CursoAplicacao
                     {
-                        IdCurso = idCurso,
+                        IdCurso = curso.Id,
                         DtInicio = DateTime.Today.AddDays(-20),
                         DtFim = DateTime.Today.AddDays(10),
+                        Curso = curso
                     },
                     new CursoAplicacao
                     {
-                        IdCurso = idCurso,
+                        IdCurso = curso.Id,
                         DtInicio = DateTime.Today.AddDays(10),
                         DtFim = DateTime.Today.AddDays(40),
+                        Curso = curso
                     }
                 );
 
                 context.SaveChanges();
             }
 
-            int idCursoAplicacao = context.CursoAplicacao.Where(c => c.IdCurso == idCurso).OrderBy(d => d.Id).First().Id;
+            CursoAplicacao cursoAplicacao = context.CursoAplicacao.Where(c => c.IdCurso == curso.Id).OrderBy(d => d.Id).First();
 
             // Funcionario Curso.
             if (!context.FuncionarioCurso.Any())
@@ -88,17 +90,21 @@ public static class InicializaDb
                 context.FuncionarioCurso.AddRange(
                     new FuncionarioCurso
                     {
-                        IdFuncionario = idFuncionario,
-                        IdCursoAplicacao = idCursoAplicacao,
+                        IdFuncionario = funcionario.Id,
+                        IdCursoAplicacao = cursoAplicacao.Id,
                         Andamento = AndamentoCurso.Inscrito,
-                        Observacao = "Incluído na inicialização"
+                        Observacao = "Incluído na inicialização",
+                        Funcionario = funcionario,
+                        CursoAplicacao = cursoAplicacao,
                     },
                     new FuncionarioCurso
                     {
-                        IdFuncionario = idFuncionario2,
-                        IdCursoAplicacao = idCursoAplicacao,
+                        IdFuncionario = funcionario2.Id,
+                        IdCursoAplicacao = cursoAplicacao.Id,
                         Andamento = AndamentoCurso.Inscrito,
-                        Observacao = "Incluído na inicialização"
+                        Observacao = "Incluído na inicialização",
+                        Funcionario = funcionario2,
+                        CursoAplicacao = cursoAplicacao,
                     }
                 );
 

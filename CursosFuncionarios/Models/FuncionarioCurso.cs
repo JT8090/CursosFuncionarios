@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
@@ -20,14 +21,23 @@ namespace CursosFuncionarios.Models
         [Key]
         public int Id { get; set; }
         [Column("id_funcionario")]
+        [DisplayName("Funcionário")]
         public int IdFuncionario{ get; set; }
         [Column("id_curso_aplicacao")]
+        [DisplayName("Curso")]
         public int IdCursoAplicacao { get; set; }
         [Column("observacao")]
+        [DisplayName("Observação")]
         [MaxLength(200)]
         public string? Observacao { get; set; }
         [Column("nota")]
+        [DisplayName("Nota")]
         public int? Nota { get; set; }
+        [Column("andamento")]
+        [DisplayName("Situação")]
         public AndamentoCurso Andamento { get; set; } = AndamentoCurso.Inscrito;
+
+        public Funcionario Funcionario { get; set; }
+        public CursoAplicacao CursoAplicacao { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CursosFuncionarios.Models
@@ -25,17 +26,23 @@ namespace CursosFuncionarios.Models
         [Column("id_curso_aplicacao")] 
         [Key]
         public int Id { get; set; }
-        [Column("id_curso")]           
+        [Column("id_curso")]
+        [DisplayName("Curso")]
         public int IdCurso{ get; set; }
-        [Column("dt_inico")]           
+        [Column("dt_inico")]
+        [DisplayName("Início")]
         public DateTime? DtInicio { get; set; }
-        [Column("dt_fim")]             
+        [Column("dt_fim")]
+        [DisplayName("Término")]
         public DateTime? DtFim { get; set; }
+        [DisplayName("Estado")]
         [Column("estado")]             
         public EstadoCurso Estado { get; set; } = EstadoCurso.Previsto;
-        [Column("tipo")]               
+        [Column("tipo")]
+        [DisplayName("Tipo")]
         public TipoCurso Tipo { get; set; } = TipoCurso.EAD;
 
         public ICollection<FuncionarioCurso>? FuncionarioCursos { get; set; }
+        public Curso Curso { get; set; }
     }
 }
