@@ -1,6 +1,7 @@
 using CursosFuncionarios.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using CursosFuncionarios.Models;
 
 namespace CursosFuncionarios
 {
@@ -21,6 +22,14 @@ namespace CursosFuncionarios
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            // Inicializa Dados Db (Exemplos ...)
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                InicializaDb.Initialize(services);
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
