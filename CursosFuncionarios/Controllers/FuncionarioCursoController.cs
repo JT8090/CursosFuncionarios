@@ -53,11 +53,13 @@ namespace CursosFuncionarios.Controllers
         // GET: FuncionarioCurso/Create
         public IActionResult Create()
         {
-            ViewBag.Funcionarios = new SelectList(_context.Funcionario.OrderBy(s => s.Nome), "IdFuncionario", "Nome").ToList();
+            var fn = _context.Funcionario.OrderBy(s => s.Nome).ToList();
+            ViewBag.Funcionarios = new SelectList(fn, "Id", "Nome").ToList();
 
-            var ca = _context.CursoAplicacao.Include("Curso")
-                .Select(t => new {Id = t.Id, Nome = $"{t.Curso.Nome} - {t.DtInicio:dd/MM/yyyy}" }).OrderBy(t => t.Nome).ToList();
-            ViewBag.CursosAplicacao = new SelectList(ca, "Id", "Nome");
+            var ca = _context.CursoAplicacao.Include("Curso").ToList();
+
+            var caSel = ca.Select(t => new {Id = t.Id, Nome = $"{t.Curso.Nome} - {t.DtInicio:dd/MM/yyyy}" }).OrderBy(t => t.Nome).ToList();
+            ViewBag.CursosAplicacao = new SelectList(caSel, "Id", "Nome");
             return View();
         }
 
@@ -91,6 +93,15 @@ namespace CursosFuncionarios.Controllers
             {
                 return NotFound();
             }
+
+            var fn = _context.Funcionario.OrderBy(s => s.Nome).ToList();
+            ViewBag.Funcionarios = new SelectList(fn, "Id", "Nome").ToList();
+
+            var ca = _context.CursoAplicacao.Include("Curso").ToList();
+
+            var caSel = ca.Select(t => new { Id = t.Id, Nome = $"{t.Curso.Nome} - {t.DtInicio:dd/MM/yyyy}" }).OrderBy(t => t.Nome).ToList();
+            ViewBag.CursosAplicacao = new SelectList(caSel, "Id", "Nome");
+
             return View(funcionarioCurso);
         }
 
